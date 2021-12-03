@@ -1,16 +1,16 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { Component } from 'react';
-import { StyleSheet, Button, TouchableOpacity, TextInput, Linking } from 'react-native';
+import { StyleSheet, Button, TouchableOpacity, TextInput } from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import * as AuthSession from 'expo-auth-session';
+import * as Linking from 'expo-linking';
+
 
 export default function EditScreenInfo({ path }: { path: string }) {
-  const [text] = React.useState();
-
   return (
     <View>
       <View style={styles.getStartedContainer}>
@@ -41,7 +41,20 @@ async function getAuthURL(): Promise<any> {
   console.log(redirect);
   console.log(typeof redirect);
   let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&redirect_uri=${redirect}&state=&connection=conn_01FNSDTB9YZCGGT9YV3HN7MEK3`;
-  await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
+  let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
+  let code = JSON.parse(JSON.stringify(result)).params.code;
+  global.code = code;
+  console.log(global.code);
+  getProfile();
+}
+
+async function getProfile(): Promise<any> {
+  axios({
+    method: 'post',
+    url: `https://api.workos.com/sso/token?client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&client_secret=sk_77wH6sMmWWUgae0o6MGGeqgsE&grant_type=authorization_code&code=${global.code}`
+  }).then((response) => {
+    console.log(response.data);
+  });
 }
 
 const styles = StyleSheet.create({
