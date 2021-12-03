@@ -1,0 +1,4 @@
+- `git clone git@github.com:workos-inc/react-native-expo-example-app.git`
+- `cd react-native-expo-example-app`
+- `npm install`
+- `npm start`
