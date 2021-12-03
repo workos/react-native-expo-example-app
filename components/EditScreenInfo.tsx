@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Button, TouchableOpacity, TextInput } from 'react-native';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import * as Linking from 'expo-linking';
 
 
 export default function EditScreenInfo({ path }: { path: string }) {
+  const [profile, setProfile] = useState("Profile");
   return (
     <View>
       <View style={styles.getStartedContainer}>
@@ -26,6 +27,8 @@ export default function EditScreenInfo({ path }: { path: string }) {
           color="#6363F1"
         />
 
+        <Text>{profile}</Text>
+
         <View
           style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
           darkColor="rgba(255,255,255,0.05)"
@@ -34,28 +37,30 @@ export default function EditScreenInfo({ path }: { path: string }) {
       </View>
     </View>
   );
+
+  async function getAuthURL(): Promise<any> {
+    let redirect = AuthSession.makeRedirectUri().toString();
+    console.log(redirect);
+    console.log(typeof redirect);
+    let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&redirect_uri=${redirect}&state=&connection=conn_01FNSDTB9YZCGGT9YV3HN7MEK3`;
+    let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
+    let code = JSON.parse(JSON.stringify(result)).params.code;
+    global.code = code;
+    getProfile();
+  }
+
+  async function getProfile(): Promise<any> {
+    axios({
+      method: 'post',
+      url: `https://api.workos.com/sso/token?client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&client_secret=&grant_type=authorization_code&code=${global.code}`
+    }).then((response) => {
+      console.log(response.data);
+      setProfile(JSON.stringify(response.data));
+    });
+  }
+
 }
 
-async function getAuthURL(): Promise<any> {
-  let redirect = AuthSession.makeRedirectUri().toString();
-  console.log(redirect);
-  console.log(typeof redirect);
-  let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&redirect_uri=${redirect}&state=&connection=conn_01FNSDTB9YZCGGT9YV3HN7MEK3`;
-  let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
-  let code = JSON.parse(JSON.stringify(result)).params.code;
-  global.code = code;
-  console.log(global.code);
-  getProfile();
-}
-
-async function getProfile(): Promise<any> {
-  axios({
-    method: 'post',
-    url: `https://api.workos.com/sso/token?client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&client_secret=grant_type=authorization_code&code=${global.code}`
-  }).then((response) => {
-    console.log(response.data);
-  });
-}
 
 const styles = StyleSheet.create({
   getStartedContainer: {

@@ -12,6 +12,7 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
   var code: string;
+  var profile: any;
 }
 
 export type RootStackParamList = {
