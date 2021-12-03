@@ -51,7 +51,7 @@ async function getAuthURL(): Promise<any> {
 async function getProfile(): Promise<any> {
   axios({
     method: 'post',
-    url: `https://api.workos.com/sso/token?client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&client_secret=sk_77wH6sMmWWUgae0o6MGGeqgsE&grant_type=authorization_code&code=${global.code}`
+    url: `https://api.workos.com/sso/token?client_id=project_01ERG1BJWYAWX9P93Y19DSYE1C&client_secret=grant_type=authorization_code&code=${global.code}`
   }).then((response) => {
     console.log(response.data);
   });
