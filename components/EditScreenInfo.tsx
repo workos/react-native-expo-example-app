@@ -6,7 +6,7 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import {Text, View } from './Themed';
 import * as AuthSession from 'expo-auth-session';
-import {WORKOS_API_KEY, WORKOS_CLIENT_ID} from '@env'
+import {WORKOS_API_KEY, WORKOS_CLIENT_ID, WORKOS_CONNECTION_ID} from '@env'
 
 
 
@@ -19,7 +19,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
 
   async function getAuthURL(): Promise<any> {
     let redirect = AuthSession.makeRedirectUri().toString();
-    let connection_id = 'conn_01FFTPF9NCTBVWX4DHJ3KEJQRZ';
+    let connection_id = process.env.WORKOS_CONNECTION_ID;
     let client_id = process.env.WORKOS_CLIENT_ID;
     
     let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=&connection=${connection_id}`;
@@ -30,7 +30,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
 
   async function getProfile(client_id: String, code: String): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-    
+
     axios({
       method: 'post',
       url: `https://api.workos.com/sso/token?client_id=${client_id}&client_secret=${apiKey}&grant_type=authorization_code&code=${code}`
