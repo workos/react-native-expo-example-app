@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-import EditScreenInfo from '../components/EditScreenInfo';
+// import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from 'axios';
@@ -62,31 +62,39 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       {profile ? 
       <View>
         <View style={styles.bigSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
-        <Text style={styles.title}>Profile</Text>
-        <View>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
-            <TouchableOpacity 
-            onPress={reset}
-            style={styles.backButton}>
-              <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity>          
-            <ProfileScreen profile={profile}/>
+        <View style={styles.row}>
+          <View>
+            <Text style={[styles.title, styles.profile]}>Profile</Text>
           </View>
+          <View>
+            <TouchableOpacity 
+              onPress={reset}
+              style={styles.backButton}>
+              <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity> 
+          </View>
+        </View>
+        
+        <View>
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+          <ProfileScreen profile={profile}/>
+        </View>
       </View> 
       : 
       <View>
         <View style={styles.logoContainer}>
           <Image source={require('../assets/images/workos_logo.png')} style={styles.logo}/> 
           <View>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+            <View style={styles.medSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
             <Text style={styles.headingText}>Your app,</Text>
             <Text style={[styles.headingText, styles.blurpleText]}>Enterprise Ready</Text>
           </View>        
         </View>
 
         <View style={{position: 'relative', bottom: 65}}>
-          <Text style={styles.title}>SSO Powered By WorkOS</Text>         
           <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+          <Text style={styles.title}>SSO Powered By WorkOS</Text>         
+          
           <TouchableOpacity
               onPress={getAuthURL}
               style={styles.button}>
@@ -94,9 +102,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           </TouchableOpacity>
         </View>          
       </View>}
-        
 
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }
@@ -106,6 +112,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    height: 100,
+    width: 500,
+
   },
   logoContainer: {
     flex: 1,
@@ -125,9 +140,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'gray',
+    padding: 15,
   },
   separator: {
-    marginTop: 30,
+    marginVertical: 40,
+    height: 1,
+    width: '80%',
+  },
+  medSeparator: {
+    marginTop: 75,
     height: 1,
     width: '80%',
   },
@@ -149,13 +170,19 @@ const styles = StyleSheet.create({
   backButton: {
     backgroundColor: "#6363F1",
     color: "white",
-    padding: 20,
+    padding: 5,
     borderRadius: 5,
-
+    width: 125
   },
   buttonText: {
     fontSize: 20,
     color: '#fff',
     textAlign: 'center',
   },
+  profile: {
+    fontSize: 38,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+  }
 });
