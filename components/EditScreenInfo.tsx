@@ -5,8 +5,6 @@ import axios from 'axios';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import {Text, View } from './Themed';
-import * as AuthSession from 'expo-auth-session';
-import {WORKOS_API_KEY, WORKOS_CLIENT_ID, WORKOS_CONNECTION_ID} from '@env'
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
