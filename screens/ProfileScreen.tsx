@@ -31,17 +31,5 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  button: {
-    backgroundColor: "#6363F1",
-    color: "white",
-    padding: 20,
-    borderRadius: 5,
-    marginTop: 20,
-    
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#fff',
-    textAlign: 'center',
-  },
+
 });
