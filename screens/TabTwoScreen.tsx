@@ -57,7 +57,7 @@ export default function TabTwoScreen() {
       </View>
       <View>
       { directories ? directories.map((directory, index) => (
-        <View>
+        <View key={index}>
           <Button title={directory.name} key={index} onPress={() => getUsers(directory.id)}>{directory.name}</Button>
         </View>
       )) : <Text></Text>}
