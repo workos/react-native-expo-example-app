@@ -9,7 +9,15 @@ import {WORKOS_API_KEY, WORKOS_CLIENT_ID} from '@env'
 import ProfileScreen from './ProfileScreen';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  const [profile, setProfile] = useState<String | null>();
+  interface Profile {
+    first_name: string;
+    last_name: string;
+    email: string;
+    id: string;
+    raw_attributes: object;
+  }
+
+  const [profile, setProfile] = useState<Profile | null>();
 
   const reset = () => {
     setProfile(null)
@@ -19,7 +27,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     let redirect = AuthSession.makeRedirectUri().toString();
     let connection_id = process.env.WORKOS_CONNECTION_ID;
     let client_id = process.env.WORKOS_CLIENT_ID;
-    console.log(connection_id, client_id)
     
     let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=&connection=${connection_id}`;
     let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
@@ -34,8 +41,14 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       method: 'post',
       url: `https://api.workos.com/sso/token?client_id=${client_id}&client_secret=${apiKey}&grant_type=authorization_code&code=${code}`
     }).then((response) => {
-      console.log(response.data);
-      setProfile(JSON.stringify(response.data));
+      console.log(JSON.stringify(response.data));
+      setProfile({
+        first_name: response.data.profile.first_name,
+        last_name: response.data.profile.last_name,
+        email: response.data.profile.email,
+        id: response.data.profile.id,
+        raw_attributes: response.data.profile.raw_attributes
+      })
     });
   }
   return (
@@ -65,7 +78,9 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             style={styles.backButton}>
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>          
-            <ProfileScreen profile={profile}/>
+            <ProfileScreen 
+              profile={profile}
+              />
           </View>
         }
         

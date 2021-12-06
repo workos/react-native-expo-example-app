@@ -10,7 +10,11 @@ export default function ProfileScreen(props: Object) {
     <View style={styles.container}>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <ScrollView>
-          <Text>{props.profile}</Text>
+          <Text>{props.profile.first_name}</Text>
+          <Text>{props.profile.last_name}</Text>
+          <Text>{props.profile.email}</Text>
+          <Text>{props.profile.id}</Text>
+          <Text>{JSON.stringify(props.profile.raw_attributes)}</Text>
         </ScrollView>
     </View>
   );
