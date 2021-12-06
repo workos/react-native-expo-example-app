@@ -6,9 +6,7 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import {Text, View } from './Themed';
 import * as AuthSession from 'expo-auth-session';
-import {WORKOS_API_KEY, WORKOS_CLIENT_ID} from '@env'
-
-
+import {WORKOS_API_KEY, WORKOS_CLIENT_ID, WORKOS_CONNECTION_ID} from '@env'
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
@@ -29,7 +27,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   getStartedContainer: {
