@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-import EditScreenInfo from '../components/EditScreenInfo';
+// import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from 'axios';
@@ -102,9 +102,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           </TouchableOpacity>
         </View>          
       </View>}
-        
 
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
 }

@@ -1,10 +1,12 @@
-import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState} from 'react';
+import { StyleSheet, ScrollView, TouchableOpacity, Alert, Modal, Pressable } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Table, Row, Rows } from 'react-native-table-component';
 
 
 export default function ProfileScreen(props: Object) {
+  const [modalVisible, setModalVisible] = useState(false);
+  
   const tableHead = ['Profile Key', 'Profile Value'];
   const tableData = [
     ['First Name', props.profile.first_name],
@@ -13,8 +15,13 @@ export default function ProfileScreen(props: Object) {
     ['Profile ID', props.profile.id],
     ['Connection Type', props.profile.connection_type],
     ['Connection ID',props.profile.connection_id],
-    ['Raw Attributes', <TouchableOpacity><Text>View Raw Attributes</Text></TouchableOpacity>],
+    ['Raw Attributes', 
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Text style={{color: '#6363F1'}}> View Raw Attributes </Text>
+      </TouchableOpacity>],
   ]
+
+  const rawAttributes = JSON.stringify(props.profile.raw_attributes)
 
   return (
     <View style={styles.container}>
@@ -24,11 +31,29 @@ export default function ProfileScreen(props: Object) {
             <Rows data={tableData} textStyle={styles.text}/>
           </Table>
         </View>
-
-        {/* <ScrollView>
-          <Text>{JSON.stringify(props.profile.raw_attributes)}</Text>
-        </ScrollView> */}
-
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>{rawAttributes}</Text>
+                <Pressable
+                  style={[styles.modalButton, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
     </View>
   );
 }
@@ -76,4 +101,45 @@ const styles = StyleSheet.create({
     bottom: 15, 
     width: '70%' 
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalButton: {
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#6363F1",
+  },
+  buttonClose: {
+    backgroundColor: "#6363F1",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
