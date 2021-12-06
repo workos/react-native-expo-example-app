@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -7,6 +7,7 @@ import { RootTabScreenProps } from '../types';
 import axios from 'axios';
 import {WORKOS_API_KEY, WORKOS_CLIENT_ID} from '@env'
 import ProfileScreen from './ProfileScreen';
+
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [profile, setProfile] = useState<String | null>();
@@ -43,22 +44,9 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       
       {profile ? 
       <View>
-        
         <View style={styles.bigSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
         <Text style={styles.title}>Profile</Text>
-      </View> : 
-      <View> 
-      <Text style={styles.title}>SSO Powered By WorkOS</Text>         
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />        
-      </View>}
-        
-        {!profile ? 
-        <TouchableOpacity
-            onPress={getAuthURL}
-            style={styles.button}>
-          <Text style={styles.buttonText}>Authenticate with SSO</Text>
-          </TouchableOpacity> : 
-          <View>
+        <View>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
             <TouchableOpacity 
             onPress={reset}
@@ -67,9 +55,30 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             </TouchableOpacity>          
             <ProfileScreen profile={profile}/>
           </View>
-        }
+      </View> 
+      : 
+      <View>
+        <View style={styles.logoContainer}>
+          <Image source={require('../assets/images/workos_logo.png')} style={styles.logo}/> 
+          <View>
+            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+            <Text style={styles.headingText}>Your app,</Text>
+            <Text style={[styles.headingText, styles.blurpleText]}>Enterprise Ready</Text>
+          </View>        
+        </View>
+
+        <View style={{position: 'relative', bottom: 65}}>
+          <Text style={styles.title}>SSO Powered By WorkOS</Text>         
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+          <TouchableOpacity
+              onPress={getAuthURL}
+              style={styles.button}>
+            <Text style={styles.buttonText}>Authenticate with SSO</Text>
+          </TouchableOpacity>
+        </View>          
+      </View>}
         
-      
+
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
@@ -81,9 +90,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logoContainer: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch'
+  },
+  headingText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+  blurpleText: {
+    color: "#6363F1"
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'gray',
   },
   separator: {
     marginTop: 30,
@@ -94,6 +118,10 @@ const styles = StyleSheet.create({
     marginTop: 150,
     height: 1,
     width: '80%',
+  },
+  logo: {
+    width: '100%',
+    height: 60,
   },
   button: {
     backgroundColor: "#6363F1",
