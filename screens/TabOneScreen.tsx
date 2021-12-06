@@ -78,9 +78,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             style={styles.backButton}>
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>          
-            <ProfileScreen 
-              profile={profile}
-              />
+            <ProfileScreen profile={profile}/>
           </View>
         }
         
