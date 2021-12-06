@@ -14,6 +14,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     last_name: string;
     email: string;
     id: string;
+    connection_id: string;
+    connection_type: string;
     raw_attributes: object;
   }
 
@@ -47,6 +49,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         last_name: response.data.profile.last_name,
         email: response.data.profile.email,
         id: response.data.profile.id,
+        connection_id: response.data.profile.connection_id,
+        connection_type: response.data.profile.connection_type,
         raw_attributes: response.data.profile.raw_attributes
       })
     });

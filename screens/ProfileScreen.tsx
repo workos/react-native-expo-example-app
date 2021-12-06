@@ -14,6 +14,8 @@ export default function ProfileScreen(props: Object) {
           <Text>{props.profile.last_name}</Text>
           <Text>{props.profile.email}</Text>
           <Text>{props.profile.id}</Text>
+          <Text>{props.profile.connection_type}</Text>
+          <Text>{props.profile.connection_id}</Text>
           <Text>{JSON.stringify(props.profile.raw_attributes)}</Text>
         </ScrollView>
     </View>
