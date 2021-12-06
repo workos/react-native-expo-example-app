@@ -10,25 +10,40 @@ import ProfileScreen from './ProfileScreen';
 
 export default function TabTwoScreen() {
   const [directories, setDirectories] = useState<Array<object> | null>();
+  const [users, setUsers] = useState<Array<object> | null>();
   const reset = () => {
     setDirectories(null)
   }
 
-    async function getDirectories(): Promise<any> {
-      const apiKey = process.env.WORKOS_API_KEY
-      console.log(apiKey);
+  async function getDirectories(): Promise<any> {
+    const apiKey = process.env.WORKOS_API_KEY
+    console.log(apiKey);
   
-      axios.get('https://api.workos.com/directories', {
-        headers: {
-          Authorization: `Bearer ${apiKey}`
-        }
-      })
-      .then( response => {
-        console.log(response.data.data)
-        setDirectories(response.data.data)
+    axios.get('https://api.workos.com/directories', {
+      headers: {
+        Authorization: `Bearer ${apiKey}`
       }
-      )
-    }
+    })
+    .then( response => {
+      console.log(response.data.data)
+      setDirectories(response.data.data)
+    })
+  }
+
+  async function getUsers(id: String): Promise<any> {
+    const apiKey = process.env.WORKOS_API_KEY
+    console.log(apiKey);
+  
+    axios.get(`https://api.workos.com/directory_users?directory=${id}`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`
+      }
+    })
+    .then( response => {
+      console.log(response.data.data)
+      setUsers(response.data.data)
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -41,9 +56,9 @@ export default function TabTwoScreen() {
         </TouchableOpacity>
       </View>
       <View>
-      { directories ? directories.map((directory) => (
-        <View>
-          <Text >{directory.name}</Text>
+      { directories ? directories.map((directory, index) => (
+        <View key={index}>
+          <Button title={directory.name} key={index} onPress={() => getUsers(directory.id)}>{directory.name}</Button>
         </View>
       )) : <Text></Text>}
       </View>
