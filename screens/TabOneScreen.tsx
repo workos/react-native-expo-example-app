@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from 'axios';
 import {WORKOS_API_KEY, WORKOS_CLIENT_ID} from '@env'
+import ProfileScreen from './ProfileScreen';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [profile, setProfile] = useState<String | null>();
@@ -39,24 +40,36 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SSO Powered By WorkOS</Text>
-      {profile == null ? null : 
-        <TouchableOpacity 
-        onPress={reset}
-        style={styles.button}>
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>}
-
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-        <Text>{profile}</Text>
-
+      
+      {profile ? 
+      <View>
+        
+        <View style={styles.bigSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+        <Text style={styles.title}>Profile</Text>
+      </View> : 
+      <View> 
+      <Text style={styles.title}>SSO Powered By WorkOS</Text>         
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />        
+      </View>}
+        
+        {!profile ? 
         <TouchableOpacity
-          onPress={getAuthURL}
-          style={styles.button}>
-        <Text style={styles.buttonText}>Authenticate with SSO</Text>
-        </TouchableOpacity>
-
+            onPress={getAuthURL}
+            style={styles.button}>
+          <Text style={styles.buttonText}>Authenticate with SSO</Text>
+          </TouchableOpacity> : 
+          <View>
+            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+            <TouchableOpacity 
+            onPress={reset}
+            style={styles.backButton}>
+              <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>          
+            <ProfileScreen profile={profile}/>
+          </View>
+        }
+        
+      
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
@@ -73,7 +86,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
+    marginTop: 30,
+    height: 1,
+    width: '80%',
+  },
+  bigSeparator: {
+    marginTop: 150,
     height: 1,
     width: '80%',
   },
@@ -83,8 +101,16 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 5,
   },
+  backButton: {
+    backgroundColor: "#6363F1",
+    color: "white",
+    padding: 20,
+    borderRadius: 5,
+
+  },
   buttonText: {
     fontSize: 20,
     color: '#fff',
+    textAlign: 'center',
   },
 });
