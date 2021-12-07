@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView, Alert, Modal, Pressable } from 'react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
+import { StyleSheet, Button, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import axios from 'axios';
 import {WORKOS_API_KEY, WORKOS_CLIENT_ID, WORKOS_CONNECTION_ID} from '@env'
 import { Table, Row, Rows } from 'react-native-table-component';
-import ProfileScreen from './ProfileScreen';
+
 
 export default function TabTwoScreen() {
   const [directories, setDirectories] = useState<Array<object> | null>();
@@ -24,26 +22,11 @@ export default function TabTwoScreen() {
     ]
   );
   const [modalVisible, setModalVisible] = useState(false);
-
   let tableHead: String[] = ['Profile Key', 'Profile Value'];
-  // let tableData: String[][] 
-  // if (user) {    
-  //   tableData = [
-  //     ['First Name', user.first_name],
-  //     ['Last Name', user.last_name],
-  //     ['Email', user.emails[0].value],
-  //     ['ID', user.id],
-  //     ['Groups', JSON.stringify(user.groups)],
-  //     ['Directory', user.directory_id],
-  //     ['Custom Attributes', JSON.stringify(user.custom_attributes)]
-  //   ]
-  // } 
 
 
   const reset = () => {
-    console.log('reset function')
     if (users) {
-      console.log('users exists')
       getDirectories()
       setUser(null)
       setUsers(null)
@@ -55,42 +38,36 @@ export default function TabTwoScreen() {
 
   async function getDirectories(): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-  
     axios.get('https://api.workos.com/directories', {
       headers: {
         Authorization: `Bearer ${apiKey}`
       }
     })
     .then( response => {
-      console.log(response.data.data)
       setDirectories(response.data.data)
     })
   }
 
   async function getUsers(id: String): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-  
     axios.get(`https://api.workos.com/directory_users?directory=${id}`, {
       headers: {
         Authorization: `Bearer ${apiKey}`
       }
     })
     .then( response => {
-      console.log(response.data.data)
       setUsers(response.data.data)
     })
   }
 
   async function getUser(id: String): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-  
     axios.get(`https://api.workos.com/directory_users/${id}`, {
       headers: {
         Authorization: `Bearer ${apiKey}`
       }
     })
     .then( response => {
-      console.log(response.data)
       setUser(response.data)
       setProfile([
         ['First Name', response.data.first_name],
@@ -107,15 +84,13 @@ export default function TabTwoScreen() {
 
   return (
     <View style={styles.container}>
-
     { !user && directories || users?     
       <View>
         <View style={[styles.flexRow, styles.marginTop]}>
           <View>
-            <Text style={[styles.title]}>Directory</Text>
-            <Text style={[styles.title]}>Sync</Text> 
+            <Text style={styles.title}>Directory</Text>
+            <Text style={styles.title}>Sync</Text> 
           </View>  
-          
           <View>
             <TouchableOpacity 
                 onPress={reset}
@@ -125,16 +100,15 @@ export default function TabTwoScreen() {
           </View>   
         </View>
         <View style={{flex: 2}}>
-
         <View style={styles.marginTop}>          
         { directories ? 
         <View>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom:15}}>
-            <View style={{flex: 1, height: 1, backgroundColor: '#6363F1'}} />
+          <View style={styles.secondaryTitle}>
+            <View style={styles.secondaryTitleBars} />
               <View>
-                <Text style={{fontSize: 18, fontWeight: 'bold', width: 120, textAlign: 'center', color: 'gray'}}>Directories</Text>
+                <Text style={styles.secondaryTitleText}>Directories</Text>
               </View>
-            <View style={{flex: 1, height: 1, backgroundColor: '#6363F1'}} />
+            <View style={styles.secondaryTitleBars} />
           </View>
           {directories.map((directory, index) => (                    
             <View key={index}>
@@ -144,21 +118,20 @@ export default function TabTwoScreen() {
         </View> 
         : null }
       </View>
-
       { users ? 
         <ScrollView>
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom:15}}>
-            <View style={{flex: 1, height: 1, backgroundColor: '#6363F1'}} />
+          <View style={styles.secondaryTitle}>
+            <View style={styles.secondaryTitleBars} />
             <View>
-              <Text style={{fontSize: 18, fontWeight: 'bold', width: 80, textAlign: 'center', color: 'gray'}}>Users</Text>
+              <Text style={styles.secondaryTitleText}>Users</Text>
             </View>
-            <View style={{flex: 1, height: 1, backgroundColor: '#6363F1'}} />
+            <View style={styles.secondaryTitleBars} />
           </View>
         {users.map((user, index) => (
         <View key={index}>
           <Button title={user.username} onPress={() => getUser(user.id)}>{user.username}</Button>
         </View>
-      ))}
+        ))}
       </ScrollView> : null}
         </View> 
       </View>
@@ -168,8 +141,7 @@ export default function TabTwoScreen() {
           <View>
             <Text style={[styles.title]}>Directory</Text>
             <Text style={[styles.title]}>Sync</Text> 
-          </View>  
-          
+          </View>            
           <View>
             <TouchableOpacity
               onPress={getDirectories}
@@ -177,14 +149,10 @@ export default function TabTwoScreen() {
               <Text style={styles.buttonText}>Show Directories</Text>
             </TouchableOpacity>              
           </View>   
-              
         </View>
-        <View style={{flex: 2}}></View> 
-            
+        <View style={{flex: 2}}></View>     
       </View>
     }
-
-      
       <View style={styles.centeredView}>
           <Modal
             animationType="slide"
@@ -199,14 +167,12 @@ export default function TabTwoScreen() {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>User Profile</Text>
-                
-                <View style={[styles.tableContainer]}>
+                <View style={styles.tableContainer}>
                 <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                   <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
                   <Rows data={profile} textStyle={styles.text}/>
                 </Table>
               </View>
-                
                 <Pressable
                   style={[styles.modalButton, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
@@ -218,8 +184,6 @@ export default function TabTwoScreen() {
             </ScrollView>
           </Modal>
         </View>
-
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
     </View>
   );
 }
@@ -227,7 +191,6 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -239,29 +202,33 @@ const styles = StyleSheet.create({
     height: 100,
     width: 400,
   },
-  leftRow: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
   title: {
     fontSize: 37,
     fontWeight: 'bold',
     textAlign: 'left',
   },
+  secondaryTitle: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginBottom:15,
+  },
+  secondaryTitleBars: {
+    flex: 1, 
+    height: 1, 
+    backgroundColor: '#6363F1'
+  },
+  secondaryTitleText: {
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    width: 110, 
+    textAlign: 'center', 
+    color: 'gray'
+  },
   marginLeft: {
     marginLeft: 33,
   },
   marginTop: {
-    marginTop: 50
-  },
-  shiftUp: {
-    position: 'relative',
-    bottom: 106
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    marginTop: 50,
   },
   button: {
     backgroundColor: "#6363F1",
@@ -270,19 +237,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 150
   },
-  backButton: {
-    backgroundColor: "#6363F1",
-    color: "white",
-    padding: 20,
-    borderRadius: 5,
-
-  },
   buttonText: {
     fontSize: 15,
     color: '#fff',
     textAlign: 'center',
   },
-
   head: { 
     height: 40, 
     backgroundColor: '#f1f8ff'
@@ -297,7 +256,6 @@ const styles = StyleSheet.create({
     bottom: 15, 
     width:  370
   },
-
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -324,9 +282,6 @@ const styles = StyleSheet.create({
     padding: 15,
     elevation: 2,
     width: 200
-  },
-  buttonOpen: {
-    backgroundColor: "#6363F1",
   },
   buttonClose: {
     backgroundColor: "#6363F1",
