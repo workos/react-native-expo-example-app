@@ -48,7 +48,7 @@ export default function ProfileScreen(props: Object) {
                   style={[styles.modalButton, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
+                  <Text style={styles.textStyle}>Back</Text>
                 </Pressable>
               </View>
             </View>
@@ -123,9 +123,10 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalButton: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 15,
-    elevation: 2
+    elevation: 2,
+    width: 200
   },
   buttonOpen: {
     backgroundColor: "#6363F1",
