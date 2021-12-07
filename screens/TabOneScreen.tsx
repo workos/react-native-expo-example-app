@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-// import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from 'axios';
@@ -30,7 +29,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     let redirect = AuthSession.makeRedirectUri().toString();
     let connection_id = process.env.WORKOS_CONNECTION_ID;
     let client_id = process.env.WORKOS_CLIENT_ID;
-    
     let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=&connection=${connection_id}`;
     let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
     let code = JSON.parse(JSON.stringify(result)).params.code;

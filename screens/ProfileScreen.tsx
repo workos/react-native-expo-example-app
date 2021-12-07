@@ -64,15 +64,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 15,
-    height: 1,
-    width: '80%',
-  },
   button: {
     borderColor: '#6363F1',
     borderStyle: "solid",
@@ -81,11 +72,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     position: 'relative',
     bottom: 300,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#6363F1',
-    textAlign: 'center',
   },
   head: { 
     height: 40, 
@@ -127,9 +113,6 @@ const styles = StyleSheet.create({
     padding: 15,
     elevation: 2,
     width: 200
-  },
-  buttonOpen: {
-    backgroundColor: "#6363F1",
   },
   buttonClose: {
     backgroundColor: "#6363F1",
