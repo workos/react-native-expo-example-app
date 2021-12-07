@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import * as AuthSession from 'expo-auth-session';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -11,13 +10,14 @@ import ProfileScreen from './ProfileScreen';
 export default function TabTwoScreen() {
   const [directories, setDirectories] = useState<Array<object> | null>();
   const [users, setUsers] = useState<Array<object> | null>();
+  const [user, setUser] = useState<object | null>();
+
   const reset = () => {
     setDirectories(null)
   }
 
   async function getDirectories(): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-    console.log(apiKey);
   
     axios.get('https://api.workos.com/directories', {
       headers: {
@@ -32,7 +32,6 @@ export default function TabTwoScreen() {
 
   async function getUsers(id: String): Promise<any> {
     const apiKey = process.env.WORKOS_API_KEY
-    console.log(apiKey);
   
     axios.get(`https://api.workos.com/directory_users?directory=${id}`, {
       headers: {
@@ -42,6 +41,20 @@ export default function TabTwoScreen() {
     .then( response => {
       console.log(response.data.data)
       setUsers(response.data.data)
+    })
+  }
+
+  async function getUser(id: String): Promise<any> {
+    const apiKey = process.env.WORKOS_API_KEY
+  
+    axios.get(`https://api.workos.com/directory_users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`
+      }
+    })
+    .then( response => {
+      console.log(response.data)
+      setUser(response.data)
     })
   }
 
@@ -63,6 +76,11 @@ export default function TabTwoScreen() {
       )) : <Text></Text>}
       </View>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      { users ? users.map((user, index) => (
+        <View key={index}>
+          <Button title={user.username} onPress={() => getUser(user.id)}>{user.username}</Button>
+        </View>
+      )) : <Text></Text>}
       <TouchableOpacity 
         onPress={reset}
         style={styles.backButton}>
