@@ -9,18 +9,21 @@ import { useEffect } from 'react';
 
 export default function TabThreeScreen() {
     const [connected, setConnected] = useState<Boolean>(false);
-    const SOCKET_URL = '';
+    const [webhook, setWebhook] = useState<String| null>()
+    const SOCKET_URL = 'http://localhost:8080';
+
+    const reset = () => {
+      setWebhook(null)
+    }
 
     const socket = io.connect(SOCKET_URL, {
         transports: ['websocket'],
         reconnectionAttempts: 5
       });
-    
-    const onConnectSocket = () => {
 
+    const onConnectSocket = () => {
         if(socket) {
           socket.on('connect', () => {
-          socket.emit('i-am-connected');
           console.log("socket is connected")
           setConnected(true)
           });
@@ -29,6 +32,10 @@ export default function TabThreeScreen() {
 
       useEffect(() => {
         onConnectSocket()
+        socket.on('webhook event', function(event){
+          console.log(event);
+          setWebhook(JSON.stringify(event))
+        });
       }, [])
 
   return (
@@ -40,15 +47,17 @@ export default function TabThreeScreen() {
           </View>            
           <View>
             <TouchableOpacity
-              style={styles.button}>
+              style={styles.button}
+              onPress={reset}>
               <Text style={styles.buttonText}>Clear Webhooks</Text>
             </TouchableOpacity>              
           </View>   
         </View>
-        <View style={{flex: 2}}>
-            
-            
-        </View>     
+        { webhook ? 
+        <View style={{flex: 2}}>            
+            <Text style={{textAlign: 'center'}}>{webhook}</Text>
+        </View> : null 
+        }  
       </View>
     </View>
   );
