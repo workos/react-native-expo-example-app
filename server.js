@@ -29,6 +29,7 @@ app.post('/webhooks', async (req, res) => {
       tolerance: 90000,
     })
     socket.emit('webhook event', {webhook})
-    console.log("SUCCESS" + webhook)
-    return 200;
+    console.log("SUCCESS" + JSON.stringify(webhook))
+    
+    return res.status(200).json("yay successful webhook")
   })

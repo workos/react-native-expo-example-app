@@ -141,7 +141,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   separator: {
-    marginVertical: 40,
+    marginVertical: 25,
+    position: 'relative', 
+    bottom: 10,   
     height: 1,
     width: '80%',
   },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, prevState } from 'react';
 import { StyleSheet, Button, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from 'react-native';
 import { Text, View } from '../components/Themed';
 import axios from 'axios';
@@ -9,11 +9,12 @@ import { useEffect } from 'react';
 
 export default function TabThreeScreen() {
     const [connected, setConnected] = useState<Boolean>(false);
-    const [webhook, setWebhook] = useState<String| null>()
+    const [webhook, setWebhook] = useState<Object[] | null>([])
     const SOCKET_URL = 'http://localhost:8080';
 
     const reset = () => {
       setWebhook(null)
+      setWebhook([])
     }
 
     const socket = io.connect(SOCKET_URL, {
@@ -26,18 +27,26 @@ export default function TabThreeScreen() {
           socket.on('connect', () => {
           console.log("socket is connected")
           setConnected(true)
-          });
+          });          
         }
       }
 
+    const showWebhooks = 
+      webhook.length > 0 ? webhook.map((hook, index) => {
+          return <Text key={index} style={{textAlign: 'left', paddingHorizontal: 40, paddingVertical: 10, marginBottom: 15, backgroundColor: '#e7e4ed' }}>{JSON.stringify(hook)}</Text>
+      }) : null;
+    
+
       useEffect(() => {
+        let isMounted: Boolean = true;
         onConnectSocket()
-        socket.on('webhook event', function(event){
-          console.log(event);
-          setWebhook(JSON.stringify(event))
-        });
+        socket.on('webhook event', function (event) {          
+            setWebhook((webhook) => [event.webhook.data, ...webhook])
+          });
+        return isMounted = false;
       }, [])
 
+      console.log(webhook)
   return (
     <View style={styles.container}>
         <View>
@@ -54,9 +63,9 @@ export default function TabThreeScreen() {
           </View>   
         </View>
         { webhook ? 
-        <View style={{flex: 2}}>            
-            <Text style={{textAlign: 'center'}}>{webhook}</Text>
-        </View> : null 
+        <ScrollView style={{flex: 2}}>            
+            {showWebhooks}
+        </ScrollView> : null 
         }  
       </View>
     </View>
