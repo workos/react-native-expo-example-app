@@ -124,14 +124,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   headingText: {
     fontSize: 40,
     fontWeight: 'bold',
   },
   blurpleText: {
-    color: "#6363F1"
+    color: "#6363F1",
   },
   title: {
     fontSize: 20,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 5,
     borderRadius: 5,
-    width: 125
+    width: 125,
   },
   buttonText: {
     fontSize: 20,

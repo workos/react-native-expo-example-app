@@ -33,7 +33,7 @@ export default function TabThreeScreen() {
 
     const showWebhooks = 
       webhook.length > 0 ? webhook.map((hook, index) => {
-          return <Text key={index} style={{textAlign: 'left', paddingHorizontal: 40, paddingVertical: 10, marginBottom: 15, backgroundColor: '#e7e4ed' }}>{JSON.stringify(hook)}</Text>
+          return <Text key={index} style={styles.webhookEvent}>{JSON.stringify(hook)}</Text>
       }) : null;
     
 
@@ -46,7 +46,6 @@ export default function TabThreeScreen() {
         return isMounted = false;
       }, [])
 
-      console.log(webhook)
   return (
     <View style={styles.container}>
         <View>
@@ -99,14 +98,14 @@ const styles = StyleSheet.create({
   secondaryTitleBars: {
     flex: 1, 
     height: 1, 
-    backgroundColor: '#6363F1'
+    backgroundColor: '#6363F1',
   },
   secondaryTitleText: {
     fontSize: 18, 
     fontWeight: 'bold', 
     width: 110, 
     textAlign: 'center', 
-    color: 'gray'
+    color: 'gray',
   },
   marginLeft: {
     marginLeft: 33,
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10,
     borderRadius: 5,
-    width: 150
+    width: 150,
   },
   buttonText: {
     fontSize: 15,
@@ -128,23 +127,23 @@ const styles = StyleSheet.create({
   },
   head: { 
     height: 40, 
-    backgroundColor: '#f1f8ff'
+    backgroundColor: '#f1f8ff',
   },
   text: { 
-    margin: 6
+    margin: 6,
   },
   tableContainer: { 
     flex: 2,
     padding: 16,
     position: 'relative',
     bottom: 15, 
-    width:  370
+    width:  370,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -155,17 +154,17 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   modalButton: {
     borderRadius: 10,
     padding: 15,
     elevation: 2,
-    width: 200
+    width: 200,
   },
   buttonClose: {
     backgroundColor: "#6363F1",
@@ -173,13 +172,20 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 35,
     textAlign: "center",
     fontWeight: 'bold',
     fontSize:24,
-    color: 'grey'
-  }
+    color: 'grey',
+  },
+  webhookEvent: {
+      textAlign: 'left', 
+      paddingHorizontal: 40, 
+      paddingVertical: 10, 
+      marginBottom: 15, 
+      backgroundColor: '#e7e4ed',
+    }
 });
