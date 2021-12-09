@@ -12,12 +12,7 @@ npm install -g expo-cli
 
 ## React Native Expo Project Setup / SSO Tab
 
-1. In your CLI, navigate to the directory into which you want to clone this git repo.
-   ```bash
-   $ cd ~/Desktop/
-   ```
-
-2. Clone the main repo and install dependencies for the app you'd like to use:
+1. Clone the main repo and install dependencies for the app you'd like to use:
     ```bash
     # HTTPS
     git clone https://github.com/workos-inc/react-native-expo-example-app.git
@@ -29,19 +24,19 @@ npm install -g expo-cli
     git clone git@github.com:workos-inc/react-native-expo-example-app.git
     ```
 
-3. Navigate into the cloned repo. 
+2. Navigate into the cloned repo. 
    ```bash
    $ cd react-native-expo-example-app
    ```
 
-4. Install the dependencies. 
+3. Install the dependencies. 
     ```bash
     $ npm install
     ```
 
 ## Configure your environment
 
-5. Grab your API Key and Client ID from the WorkOS Dashboard. Create a `.env` file at the root of the project, and store these like so:
+4. Grab your API Key and Client ID from the WorkOS Dashboard. Create a `.env` file at the root of the project, and store these like so:
     ```
     WORKOS_API_KEY=sk_xxxxxxxxxxxxx
     WORKOS_CLIENT_ID=project_xxxxxxxxxxxx
@@ -50,13 +45,13 @@ npm install -g expo-cli
 
 ## SSO Setup with WorkOS
 
-6. Follow the [SSO authentication flow instructions](https://workos.com/docs/sso/guide/introduction) to create a new SSO Connection in your WorkOS dashboard. Add the Connection ID to the envionment variables as `WORKOS_CONNECTION_ID`, as shown in the previous step.
+5. Follow the [SSO authentication flow instructions](https://workos.com/docs/sso/guide/introduction) to create a new SSO Connection in your WorkOS dashboard. Add the Connection ID to the envionment variables as `WORKOS_CONNECTION_ID`, as shown in the previous step.
 
-7. Add the URL generated with `AuthSession.makeRedirectUri().toString();` as a Redirect URI in the Configuration section of the Dashboard. The URL should look something like this: `exp://123.4.5.6:78900`.
+6. Add the URL generated with `AuthSession.makeRedirectUri().toString();` as a Redirect URI in the Configuration section of the Dashboard. The URL should look something like this: `exp://123.4.5.6:78900`.
 
 ## Testing the Integration
 
-9. Start the server. An Expo browser page should launch and you can begin to test the login flow on your mobile device or a simulator! 
+7. Start the server. An Expo browser page should launch and you can begin to test the login flow on your mobile device or a simulator! 
 
 ```sh
 npm start
