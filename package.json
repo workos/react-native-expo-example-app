@@ -39,7 +39,7 @@
     "react-native-screens": "~3.8.0",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "0.17.1",
-    "socket.io": "^4.4.0",
+    "socket.io": "^4.6.1",
     "socket.io-client": "^4.4.0"
   },
   "devDependencies": {
