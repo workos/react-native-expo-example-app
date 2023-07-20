@@ -1,13 +1,13 @@
 # WorkOS React Native Expo Example App
 
-An example React Native Expo application demonstrating to use the WorkOS API to authenticate users via SSO, pull directory user details with Directory Sync and recieve and parse Webhooks. 
+An example React Native Expo application demonstrating to use the WorkOS API to authenticate users via SSO, pull directory user details with Directory Sync and recieve and parse Webhooks.
 
 ## Prerequisites
 
-Ensure that you have [expo-cli](https://docs.expo.dev/workflow/expo-cli/) installed. 
+Ensure that you have [expo](https://docs.expo.dev/get-started/installation/) installed.
 
 ```
-npm install -g expo-cli
+npm install expo
 ```
 
 ## React Native Expo Project Setup / SSO Tab
@@ -24,12 +24,12 @@ npm install -g expo-cli
     git clone git@github.com:workos-inc/react-native-expo-example-app.git
     ```
 
-2. Navigate into the cloned repo. 
+2. Navigate into the cloned repo.
    ```bash
    $ cd react-native-expo-example-app
    ```
 
-3. Install the dependencies. 
+3. Install the dependencies.
     ```bash
     $ npm install
     ```
@@ -51,17 +51,17 @@ npm install -g expo-cli
 
 ## Testing the Integration
 
-7. Start the server. An Expo browser page should launch and you can begin to test the login flow on your mobile device or a simulator! 
+7. Start the server. An Expo browser page should launch and you can begin to test the login flow on your mobile device or a simulator!
 
 ```sh
-npm start
+npx expo start
 ```
 
 ## Directory Sync Tab
 
-As long as you've added your API key to the environment variables as `WORKOS_API_KEY`, you should also be able to use the Directory Sync tab to get a look into all of your currently configured Directories. 
+As long as you've added your API key to the environment variables as `WORKOS_API_KEY`, you should also be able to use the Directory Sync tab to get a look into all of your currently configured Directories.
 
-Simply click on "Show Directories" to get a list of your current, active Directories. You can then click into any directory to get a list of users, and click into any user to get their details. 
+Simply click on "Show Directories" to get a list of your current, active Directories. You can then click into any directory to get a list of users, and click into any user to get their details.
 
 ## Webhooks Tab
 

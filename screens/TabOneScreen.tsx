@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from 'axios';
@@ -30,9 +31,11 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     let connection_id = process.env.WORKOS_CONNECTION_ID;
     let client_id = process.env.WORKOS_CLIENT_ID;
     let url = `https://api.workos.com/sso/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&state=&connection=${connection_id}`;
-    let result = await AuthSession.startAsync({authUrl: url, returnUrl: redirect});
-    let code = JSON.parse(JSON.stringify(result)).params.code;
-    getProfile(client_id, code);
+    let result = await WebBrowser.openAuthSessionAsync(url, redirect)
+    let codeRegex = /code=([^&]+)/;
+    let matches = (result as any).url.match(codeRegex);
+    let parsedCode = matches ? matches[1] : null;
+    getProfile(client_id, parsedCode);
   }
 
   async function getProfile(client_id: String, code: String): Promise<any> {
@@ -56,49 +59,49 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   }
   return (
     <View style={styles.container}>
-      
-      {profile ? 
+
+      {profile ?
       <View>
-        <View style={styles.bigSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+        <View style={styles.bigSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <View style={styles.row}>
           <View>
             <Text style={[styles.title, styles.profile]}>Profile</Text>
           </View>
           <View>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={reset}
               style={styles.backButton}>
               <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity> 
+            </TouchableOpacity>
           </View>
         </View>
-        
+
         <View>
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
           <ProfileScreen profile={profile}/>
         </View>
-      </View> 
-      : 
+      </View>
+      :
       <View>
         <View style={styles.logoContainer}>
-          <Image source={require('../assets/images/workos_logo.png')} style={styles.logo}/> 
+          <Image source={require('../assets/images/workos_logo.png')} style={styles.logo}/>
           <View>
-            <View style={styles.medSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
+            <View style={styles.medSeparator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
             <Text style={styles.headingText}>Your app,</Text>
             <Text style={[styles.headingText, styles.blurpleText]}>Enterprise Ready</Text>
-          </View>        
+          </View>
         </View>
 
         <View style={{position: 'relative', bottom: 65}}>
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> 
-          <Text style={styles.title}>SSO Powered By WorkOS</Text>         
-          
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          <Text style={styles.title}>SSO Powered By WorkOS</Text>
+
           <TouchableOpacity
               onPress={getAuthURL}
               style={styles.button}>
             <Text style={styles.buttonText}>Authenticate with SSO</Text>
           </TouchableOpacity>
-        </View>          
+        </View>
       </View>}
 
     </View>
@@ -142,8 +145,8 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginVertical: 25,
-    position: 'relative', 
-    bottom: 10,   
+    position: 'relative',
+    bottom: 10,
     height: 1,
     width: '80%',
   },
