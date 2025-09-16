@@ -1,5 +1,10 @@
 # WorkOS React Native Expo Example App
 
+> [!CAUTION]
+> **This example application is significantly outdated and contains security vulnerabilities.** The current implementation includes dangerous practices that could expose sensitive credentials. This repository is being maintained for reference only and should not be used as a basis for production applications.
+>
+> A completely revised and secure example application is in development and will replace this version soon. Please check back for updates or refer to the [WorkOS documentation](https://workos.com/docs) for current best practices.
+
 An example React Native Expo application demonstrating to use the WorkOS API to authenticate users via SSO, pull directory user details with Directory Sync and recieve and parse Webhooks.
 
 ## Prerequisites
